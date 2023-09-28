@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const questionsSchema = new mongoose.Schema (
     {
-        topicName: {
+        questionUrl: {
             type: String,
             required: true,
         },
-        questionUrl: {
+        topicName: {
             type: String,
             required: true,
         },
