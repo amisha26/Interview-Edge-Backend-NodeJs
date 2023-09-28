@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userAuth = require("./routes/auth");
+const exploreRoute = require("./routes/explore");
 
 
 dotenv.config();
@@ -22,6 +23,8 @@ app.use(morgan("common"));
 
 
 app.use("/auth", userAuth);
+app.use("/explore", exploreRoute);
+
 
 app.listen(8800, () => {
     console.log("server is running");
