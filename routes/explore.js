@@ -12,7 +12,10 @@ router.get("/topics", async (req, res) => {
         console.log(err);
         return res.status(500).json(err);
     }
-});                   
+});  
+
+// GET SELECTED TOPICS
+
 
 // Add Questions (admin only)
 router.post("/add-questions", async (req, res) => {
