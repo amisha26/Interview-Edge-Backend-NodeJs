@@ -4,9 +4,21 @@ const UserQuestions = require("../models/UserQuestions");
 
 
 // formattedData = {"title": title_name, "urlTitle": urltitle, "total": total, "solved": solved}
+// TO-DO:
+// get title from questions table,
+// get urlTitle from topic mapping,
+// get total questions per topic from question
+// get the count of questions solved per topic from userquestions table
 //GET TOPICS
-router.get("/topics", async (req, res) => {
+router.get("/topics/:id", async (req, res) => {
     try {
+        const question = await Questions.find();
+        const uniqueTitle = new Set();
+        question.forEach((item) => {
+            uniqueTitle.add(item.topicName);
+        });
+        const title = [...uniqueTitle];
+        console.log(title);
         
     } catch (err) {
         console.log(err);
