@@ -4,3 +4,5 @@ topicMapping = {"twoPointers": "Two Pointers",
                     "tree-1":"Tree - 1","tree-2":"Tree - 2","dp-1":"Dynamic Programming - 1",
                     "heap":"Heap - Priority Queue","dp-2":"Dynamic Programming - 2",
                     "slidingWindow":"Sliding Window"}
+
+module.exports = topicMapping;

@@ -1,25 +1,44 @@
 const router = require("express").Router();
 const Questions = require("../models/Questions");
 const UserQuestions = require("../models/UserQuestions");
+const topicMapping = require("../projData/topicData");
 
 
 // formattedData = {"title": title_name, "urlTitle": urltitle, "total": total, "solved": solved}
-// TO-DO:
-// get title from questions table,
-// get urlTitle from topic mapping,
-// get total questions per topic from question
-// get the count of questions solved per topic from userquestions table
 //GET TOPICS
 router.get("/topics/:id", async (req, res) => {
     try {
         const question = await Questions.find();
-        const uniqueTitle = new Set();
+        countTitle = {};
         question.forEach((item) => {
-            uniqueTitle.add(item.topicName);
+            val = item.topicName;
+            countTitle = {...countTitle, [val]: countTitle[val] === undefined ? 1 : countTitle[val] + 1};
         });
-        const title = [...uniqueTitle];
-        console.log(title);
-        
+        const userQuestion  = await UserQuestions.find();
+        solvedTopics = {};
+        userQuestion.forEach((item) => {
+            val = item.topicName;
+            id = item.userId;
+            if (id === req.params.id) {
+                solvedTopics = {...solvedTopics, [val]: solvedTopics[val] === undefined ? 1 : solvedTopics[val] + 1}
+            }
+        });
+        finalData =  Object.keys(countTitle).map((item) => {
+            urlTitle = item;
+            total = countTitle[item]
+            if (urlTitle in topicMapping) {
+                title = topicMapping[urlTitle];
+            }
+            if (urlTitle in solvedTopics) {
+                solved = solvedTopics[urlTitle];
+            }
+            else{
+                solved = 0;
+            }
+            return {"title": title, "urlTitle": urlTitle, "total": total, "solved": solved};
+        });
+        return res.status(200).json(finalData);
+
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
@@ -27,6 +46,7 @@ router.get("/topics/:id", async (req, res) => {
 });  
 
 // GET SELECTED TOPICS
+
 
 
 // Add Questions (admin only)
