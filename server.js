@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userAuth = require("./routes/auth");
 const exploreRoute = require("./routes/explore");
+const profileRoute = require("./routes/profile");
 
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(morgan("common"));
 
 app.use("/auth", userAuth);
 app.use("/explore", exploreRoute);
+app.use("/profile", profileRoute);
 
 
 app.listen(8800, () => {
