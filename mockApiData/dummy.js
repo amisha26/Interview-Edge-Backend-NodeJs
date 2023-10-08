@@ -29,21 +29,21 @@ const selectedTopicData = [
     {
         "body": [
             {
-                "completed": False,
+                "completed": "False",
                 "id": "c6ae0a22427c11eebc84a6a688ffce9b",
                 "name": "Unique Email Addresses",
                 "platform": "leetcode",
                 "url": "https://leetcode.com/problems/unique-email-addresses/"
             },
             {
-                "completed": False,
+                "completed": "False",
                 "id": "dcd58f5e1cc111eea5719f9e1997d77b",
                 "name": "Valid Anagram",
                 "platform": "leetcode",
                 "url": "https://leetcode.com/problems/valid-anagram/"
             },
             {
-                "completed": False,
+                "completed": "False",
                 "id": "56481cfa1cc511eea5719f9e1997d77b",
                 "name": "Word Pattern",
                 "platform": "leetcode",
@@ -56,7 +56,7 @@ const selectedTopicData = [
     {
         "body": [
             {
-                "completed": False,
+                "completed": "False",
                 "id": "fa5138221cc511eea5719f9e1997d77b",
                 "name": "Valid Sudoku",
                 "platform": "leetcode",
@@ -69,21 +69,21 @@ const selectedTopicData = [
     {
         "body": [
             {
-                "completed": False,
+                "completed": "False",
                 "id": "adf148e01cc611eea5719f9e1997d77b",
                 "name": "First Missing Positive",
                 "platform": "leetcode",
                 "url": "https://leetcode.com/problems/first-missing-positive/"
             },
             {
-                "completed": False,
+                "completed": "False",
                 "id": "b925f5e41cc611eea5719f9e1997d77b",
                 "name": "Naming a Company",
                 "platform": "leetcode",
                 "url": "https://leetcode.com/problems/naming-a-company/"
             },
             {
-                "completed": False,
+                "completed": "False",
                 "id": "2c9f9f50164811eea88ae3300d621ca4",
                 "name": "Trapping Rain Water",
                 "platform": "leetcode",
@@ -242,7 +242,7 @@ const dropdown = [
 const table = {
     "rows": [
         {
-            "date": None,
+            "date": "None",
             "done": "No",
             "level": "medium",
             "platform": "leetcode",
@@ -269,7 +269,7 @@ const table = {
             "url": "https://leetcode.com/problems/build-array-from-permutation/"
         },
         {
-            "date": None,
+            "date": "None",
             "done": "No",
             "level": "medium",
             "platform": "leetcode",
@@ -278,7 +278,7 @@ const table = {
             "url": "https://leetcode.com/problems/swapping-nodes-in-a-linked-list/?envType=list&envId=9y4zmb5i"
         },
         {
-            "date": None,
+            "date": "None",
             "done": "No",
             "level": "medium",
             "platform": "leetcode",
@@ -287,7 +287,7 @@ const table = {
             "url": "https://leetcode.com/problems/split-two-strings-to-make-palindrome/"
         },
         {
-            "date": None,
+            "date": "None",
             "done": "No",
             "level": "medium",
             "platform": "leetcode",
@@ -296,7 +296,7 @@ const table = {
             "url": "https://leetcode.com/problems/3sum/"
         },
         {
-            "date": None,
+            "date": "None",
             "done": "No",
             "level": "medium",
             "platform": "leetcode",

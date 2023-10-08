@@ -2,17 +2,9 @@ const router = require("express").Router();
 const Questions = require("../models/Questions");
 const UserQuestions = require("../models/UserQuestions");
 const topicMapping = require("../projData/topicData");
+const mockData = require("../mockApiData/dummy")
 
-// const user_data = {
-//     "easySolved": 2,
-//     "easyTotal": 72,
-//     "hardSolved": 0,
-//     "hardTotal": 31,
-//     "mediumSolved": 0,
-//     "mediumTotal": 144,
-//     "total": 247,
-//     "totalSolved": 3
-// }
+// GET USER STATUS
 router.get("/user_status/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -61,5 +53,51 @@ router.get("/user_status/:id", async (req, res) => {
         return res.status(500).json(err);
     }
 });
+
+// GET DROP-DOWN DATA
+router.get("/dropdown-data", async (req, res) => {
+    try {
+        res.status(200).json(mockData.dropdown);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
+
+// GET TABLE DATA
+router.get("/table_data/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const questions = await Questions.find();
+        const userQuestions = await UserQuestions.find();
+        questionData = [];
+        questionData = questions.map((question) => {
+            level = question.level;
+            platform = question.platform;
+            qName = question.questionName;
+            qTopic = question.topicName;
+            url = question.questionUrl;
+            qId = question.id;
+            const fetchUserDetails = userQuestions.filter((userid) => userid.userId === id && userid.questionId === qId);
+            if (fetchUserDetails.length > 0) {
+                date = fetchUserDetails.date;
+                done = "Yes";
+            } else {
+                date = "None";
+                done = "No";
+            }
+            return {"date": date, "done": done, "level": level, "platform": platform,
+            "question": qName, "topic": qTopic, "url": url};
+        });
+        const finalData = {"rows": questionData};
+        return res.status(200).json(finalData);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 
 module.exports = router;
