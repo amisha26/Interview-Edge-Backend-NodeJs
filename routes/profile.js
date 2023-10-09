@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Questions = require("../models/Questions");
 const UserQuestions = require("../models/UserQuestions");
-const topicMapping = require("../projData/topicData");
 const mockData = require("../mockApiData/dummy")
 
 // GET USER STATUS
@@ -28,13 +27,13 @@ router.get("/user_status/:id", async (req, res) => {
         const questionsSolvedByUser = userQuestions.filter((userid) => userid.userId === id);
         questionsSolvedByUser.forEach((user) => {
             qId = user.questionId
-            const selectedQuestion = questions.filter((i) => i.id === qId)
-            selectedQuestion.forEach ((i) => {
-                if (i.level === "easy") {
+            const selectedQuestion = questions.filter(({id}) => id === qId)
+            selectedQuestion.forEach (({level}) => {
+                if (level === "easy") {
                     easySolved += 1;
-                } else if (i.level === "medium") {
+                } else if (level === "medium") {
                     mediumSolved += 1;
-                } else if (i.level === "hard") {
+                } else if (level === "hard") {
                     hardSolved += 1;
                 }
             })
