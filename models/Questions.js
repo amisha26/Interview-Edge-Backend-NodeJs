@@ -6,9 +6,9 @@ const questionsSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
-        _id: {
+        _questionId: {
             type: String,
-            required: true
+            required: true,
         },
         topicName: {
             type: String,

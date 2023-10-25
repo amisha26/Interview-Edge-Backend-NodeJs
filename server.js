@@ -8,6 +8,8 @@ const userAuth = require("./routes/auth");
 const exploreRoute = require("./routes/explore");
 const profileRoute = require("./routes/profile");
 const Questions = require("./models/Questions");
+const userQuestions = require("./models/UserQuestions");
+const Users = require("./models/Auth");
 const csvToJson = require("./script");
 
 
@@ -26,8 +28,12 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true}).then(
 
 
 // Add CSV data to MongoDb schema
-const csv_path = "./csv/questions.csv";
-//csvToJson(csv_path, Questions);
+const questions_csv_path = "./csv/questions.csv";
+//csvToJson(questions_csv_path, Questions);
+const userquestions_csv_path = "./csv/userquestions.csv";
+//csvToJson(userquestions_csv_path, userQuestions);
+const users_csv_path = "./csv/users.csv";
+//csvToJson(users_csv_path, Users);
 
 
 //middleware
