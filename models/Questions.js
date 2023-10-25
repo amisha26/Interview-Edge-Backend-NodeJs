@@ -6,6 +6,10 @@ const questionsSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
+        _id: {
+            type: String,
+            required: true
+        },
         topicName: {
             type: String,
             required: true,
@@ -28,4 +32,4 @@ const questionsSchema = new mongoose.Schema (
     }
 );
 
-module.exports = mongoose.model('Explore', questionsSchema);
+module.exports = mongoose.model('Questions', questionsSchema);

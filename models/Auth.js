@@ -22,4 +22,4 @@ const userAuthSchema = new mongoose.Schema (
 );
 
 
-module.exports = mongoose.model("Auth", userAuthSchema);
+module.exports = mongoose.model("Users", userAuthSchema);
