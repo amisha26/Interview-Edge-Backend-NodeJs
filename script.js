@@ -1,6 +1,6 @@
 const csv = require('csv-parser');
 const fs = require('fs');
-const scriptData = require('./projData/scriptData')
+const scriptData = require('./projData/scriptData.json')
 
 async function csvToJson(csvFilePath, Model) {
     return new Promise((resolve, reject) => {
@@ -9,35 +9,15 @@ async function csvToJson(csvFilePath, Model) {
         fs.createReadStream(csvFilePath)
             .pipe(csv())
             .on('data', (row) => {
-                //const questionData = {};
-                const userQuestionsData = {};
-                //const usersData = {}
+                const modelData = {}
+                const modelFields = scriptData.fields;
 
-            //     for (const modelField in scriptData.userAuthModel) {
-            //         const csvColumn = scriptData.userAuthModel[modelField];
-            //         usersData[modelField] = row[csvColumn];
-            //    }
-
-                // for (const modelField in scriptData.userAuthModel) {
-                //     const csvColumn = scriptData.userAuthModel[modelField];
-                //     usersData[modelField] = row[csvColumn];
-                // }
-
-                for (const modelField in scriptData.userQuestionModel) {
-                    const csvColumn = scriptData.userQuestionModel[modelField];
-                    userQuestionsData[modelField] = row[csvColumn];
-                }
-
-
-
-                //const question = new Model(questionData);
-                const userQuestions = new Model(userQuestionsData);
-                //const users = new Model(usersData);
-
-                // Save the document to the MongoDB collection
-                //results.push(question.save());
-                results.push(userQuestions.save());
-                //results.push(users.save());
+                Object.entries(modelFields).forEach(([schemaKey, csvKey]) => {
+                    const csvColumn = csvKey;
+                    modelData[schemaKey] = row[csvColumn];
+                })
+                const model = new Model(modelData);
+                results.push(model.save());
             })
             .on('end', () => {
                 Promise.all(results)

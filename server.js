@@ -11,6 +11,7 @@ const Questions = require("./models/Questions");
 const userQuestions = require("./models/UserQuestions");
 const Users = require("./models/Auth");
 const csvToJson = require("./script");
+const cors = require("cors");
 
 
 // utils

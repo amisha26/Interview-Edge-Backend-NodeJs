@@ -1,0 +1,10 @@
+{
+    "modelName" : "userQuestions",
+    "fields": {
+        "_id": "user_id",
+        "username": "username",
+        "password": "password"
+    }
+}
+
+
