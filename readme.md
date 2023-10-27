@@ -33,8 +33,6 @@ npm install
 
 To run the server
 
-1. With Gunicorn
-
 ```bash
 npm start
 ```
