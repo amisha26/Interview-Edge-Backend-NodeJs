@@ -1,3 +1,4 @@
+const uuid = require("uuid");
 const mongoose = require("mongoose");
 
 const questionsSchema = new mongoose.Schema (
@@ -8,7 +9,7 @@ const questionsSchema = new mongoose.Schema (
         },
         _id: {
             type: String,
-            required: true,
+            default: () => uuid.v4(),
         },
         topicName: {
             type: String,

@@ -4,9 +4,9 @@ const UserQuestions = require("../models/UserQuestions");
 const mockData = require("../mockApiData/dummy")
 
 // GET USER STATUS
-router.get("/user_status/:id", async (req, res) => {
+router.get("/user_status", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.query;
         const questions = await Questions.find();
         const userQuestions = await UserQuestions.find();
         let easyTotal = 0;
@@ -45,29 +45,29 @@ router.get("/user_status/:id", async (req, res) => {
             "hardTotal": hardTotal, "mediumSolved": mediumSolved, "mediumTotal": mediumTotal, "total": total,
             "totalSolved": totalSolved
         };
-        return res.status(200).json(finalData);
+        return res.status(200).json({ data: finalData, error: false });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
+        return res.status(500).json({ data: "Something Went Wrong!", error: true });
     }
 });
 
 // GET DROP-DOWN DATA
 router.get("/dropdown-data", async (req, res) => {
     try {
-        res.status(200).json(mockData.dropdown);
+        res.status(200).json({ data: mockData.dropdown, error: false });
     } catch (err) {
         console.log(err);
-        res.status(500).json(err);
+        res.status(500).json({ data: "Something Went Wrong!", error: true });
     }
 })
 
 
 // GET TABLE DATA
-router.get("/table_data/:id", async (req, res) => {
+router.get("/table_data", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.query;
         const questions = await Questions.find();
         const userQuestions = await UserQuestions.find();
         questionData = [];
@@ -90,11 +90,11 @@ router.get("/table_data/:id", async (req, res) => {
             "question": qName, "topic": qTopic, "url": url};
         });
         const finalData = {"rows": questionData};
-        return res.status(200).json(finalData);
+        return res.status(200).json({ data: finalData, error: false });
 
     } catch (err) {
         console.log(err);
-        res.status(500).json(err);
+        res.status(500).json({ data: "Something Went Wrong!", error: true });
     }
 });
 

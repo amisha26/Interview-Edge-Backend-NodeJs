@@ -41,6 +41,8 @@ const users_csv_path = "./csv/users.csv";
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+app.use(cors());
+
 
 // ============ SWAGGER =========
 //const swaggerSpec = swaggerJsDoc(SwaggerOptions);
@@ -49,9 +51,9 @@ app.use(morgan("common"));
 
 
 
-app.use("/auth", userAuth);
-app.use("/explore", exploreRoute);
-app.use("/profile", profileRoute);
+app.use("/api/v1/", userAuth);
+app.use("/api/v1/", exploreRoute);
+app.use("/api/v1/profile", profileRoute);
 
 
 
