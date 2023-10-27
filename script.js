@@ -1,6 +1,6 @@
 const csv = require('csv-parser');
 const fs = require('fs');
-const scriptData = require('./projData/scriptData.json')
+const scriptData = require('./projectData/scriptData.json')
 
 async function csvToJson(csvFilePath, Model) {
     return new Promise((resolve, reject) => {

@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { selectedTopicData } = require("../mockApiData/dummy");
+const { selectedTopicData } = require("../projectData/mockApiData/dummy");
 const Questions = require("../models/Questions");
 const UserQuestions = require("../models/UserQuestions");
-const topicMapping = require("../projData/topicData");
+const topicMapping = require("../projectData/topicData");
 
 
 // formattedData = {"title": title_name, "urlTitle": urltitle, "total": total, "solved": solved}

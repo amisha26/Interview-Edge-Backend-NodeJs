@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Questions = require("../models/Questions");
 const UserQuestions = require("../models/UserQuestions");
-const mockData = require("../mockApiData/dummy")
+const mockData = require("../projectData/mockApiData/dummy")
 
 // GET USER STATUS
 router.get("/user_status", async (req, res) => {
