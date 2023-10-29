@@ -128,24 +128,25 @@ const addQuestion = async (req, res) => {
 
 
 
-// ======================= MARK QUESTION =======================
+// ======================= MARK QUESTION =========================
 const markQuestion = async (req, res) => {
     try {
-        // request
+        // request body
         const { user_id, question_id, topic } = req.body;
 
+        // check a user's question in UserQuestions db
         const userQuestionExists = await UserQuestions.findOne({ userId: user_id, questionId: question_id, topicName: topic });
-        // mark question
+
+        // mark question and send response
         if (!userQuestionExists) {
             const markedQuestion = new UserQuestions({ userId: user_id, questionId: question_id, topicName: topic, date: new Date() });
             await markedQuestion.save();
-            // response
             return res.status(200).json({ data: "Marked", error: false });
         }
-        // unmark question
+        // unmark/delete question from db
         await UserQuestions.deleteOne(userQuestionExists);
 
-        // response
+        // response message
         return res.status(200).json({ data: "Question unmarked successfully", error: true });
 
     } catch (err) {
