@@ -1,31 +1,20 @@
 const Auth = require("../models/Auth");
 
 
+function getInvalidResponses(message) {
+    return res.status(400).json({ message, error: true })
+}
+
 // ========================= USER SIGNUP ===========================
 const userSignup =  async (req, res) => {
     try {
-        // Get user input
+        // request body
         const { username, password } = req.body;
 
-        // validate username and password
-        if (username.length === 0) {
-            return res.status(400).json({ message: "username cannot be empty", error: true })
-        }
-
-        if (password.length === 0) {
-            return res.status(400).json({ message: "password cannot be empty", error: true })
-        }
-
-        if (!(username.length >= 3 && username.length <= 20))
-            return res.status(400).json({ message: "Username length is invalid", error: true });
-
-
-        if (!(password.length >= 3 && password.length <= 20))
-            return res.status(400).json({ message: "Password length is invalid", error: true });
-
-
+        // check user in db
         const existingUser = await Auth.findOne({ username: username, password: password });
 
+        // if user does not exists send response
         if (!existingUser) {
             const newUser = new Auth(req.body);
             await newUser.save();
@@ -46,8 +35,10 @@ const userSignup =  async (req, res) => {
 // ========================== USER LOGIN ============================
 const userLogin = async (req, res) => {
     try {
-        // Get user input
+        // request body
         const { username, password } = req.body;
+
+        // check user in db
         const existingUser = await Auth.findOne({ username: username, password: password });
 
         if (!existingUser)

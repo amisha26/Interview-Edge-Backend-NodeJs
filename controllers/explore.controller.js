@@ -71,30 +71,24 @@ const getSelectedTopics = async (req, res) => {
 
 
         questions.forEach(({ _id, questionName, platform, level, questionUrl }) => {
-            const qId = _id;
-            const qName = questionName;
-            const qPlatform = platform;
-            const qLevel = level;
-            const qUrl = questionUrl;
-
-            const findUserCompletedQues = userQuestions.find(item => item.questionId === qId);
+            const findUserCompletedQues = userQuestions.find(item => item.questionId === _id);
             let completed = findUserCompletedQues !== undefined; 
 
             const formattedData = {
                 completed,
-                id: qId,
-                name: qName,
-                platform: qPlatform,
-                level: qLevel,
-                url: qUrl
+                id: _id,
+                name: questionName,
+                platform: platform,
+                level: level,
+                url: questionUrl
             };
-            if (qLevel === "easy") {
+            if (level === "easy") {
                 easyArr.push(formattedData)
             }
-            else if (qLevel === "medium") {
+            else if (level === "medium") {
                 mediumArr.push(formattedData)
             }
-            else if (qLevel === "hard") {
+            else if (level === "hard") {
                 hardArr.push(formattedData)
             }
 
@@ -143,8 +137,7 @@ const markQuestion = async (req, res) => {
         const userQuestionExists = await UserQuestions.findOne({ userId: user_id, questionId: question_id, topicName: topic });
         // mark question
         if (!userQuestionExists) {
-            const currentDate = new Date();
-            const markedQuestion = new UserQuestions({ userId: user_id, questionId: question_id, topicName: topic, date: currentDate });
+            const markedQuestion = new UserQuestions({ userId: user_id, questionId: question_id, topicName: topic, date: new Date() });
             await markedQuestion.save();
             // response
             return res.status(200).json({ data: "Marked", error: false });
