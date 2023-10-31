@@ -8,38 +8,45 @@ const getExploreTopics = async (req, res) => {
     try {
         // request
         const { id } = req.query;
+
+        if (!id) {
+            return res.status(404).json({ data: "Id is required", error: true });
+        }
+
+        // data from db
         const questions = await Questions.find();
         const userQuestions = await UserQuestions.find({ userId: id });
 
-        countQuestionsPerTopic = {};
-        questions.forEach(({ topicName }) => {
-            countQuestionsPerTopic = { ...countQuestionsPerTopic, [topicName]: countQuestionsPerTopic[topicName] === undefined ? 1 : countQuestionsPerTopic[topicName] + 1 };
+        const solvedQuestionIds = new Set(
+            userQuestions.map((solved) => solved.questionId)
+        );
+
+
+        const finalData = new Map();
+
+        questions.forEach(({ topicName, _id }) => {
+            if (finalData.has(topicName)) {
+                const topicInfo = finalData.get(topicName);
+                topicInfo.total += 1;
+
+                if (solvedQuestionIds.has(_id.toString()))
+                    topicInfo.solved += 1;
+
+            } else {
+                const newTopicInfo = { solved: 0, total: 1, title: topicMapping[topicName], urlTitle: topicName, };
+                if (solvedQuestionIds.has(_id.toString()))
+                    newTopicInfo.solved += 1;
+
+                finalData.set(topicName, newTopicInfo);
+            }
         });
 
-        solvedTopics = {};
-        userQuestions.forEach(({ topicName }) => {
-            solvedTopics = { ...solvedTopics, [topicName]: solvedTopics[topicName] === undefined ? 1 : solvedTopics[topicName] + 1 }
-        });
+        exploreData = Array.from(finalData.values());
+        exploreData.sort((a, b) => a.title.localeCompare(b.title));
 
-        finalData = Object.keys(countQuestionsPerTopic).map((item) => {
-            urlTitle = item;
-            total = countQuestionsPerTopic[item]
-            if (urlTitle in topicMapping) {
-                title = topicMapping[urlTitle];
-            }
-            if (urlTitle in solvedTopics) {
-                solved = solvedTopics[urlTitle];
-            }
-            else {
-                solved = 0;
-            }
-            return { "title": title, "urlTitle": urlTitle, "total": total, "solved": solved };
-        });
-
-        finalData.sort((a, b) => a.title.localeCompare(b.title));
         // response data
         const response = {
-            data: finalData,
+            data: exploreData,
             onGoingTopic: {
                 data: "arrays",
                 onGoingTopic: true,
@@ -61,7 +68,7 @@ const getSelectedTopics = async (req, res) => {
     try {
         // request
         const { id, topic } = req.query;
-        
+
         const questions = await Questions.find({ topicName: topic });
         const userQuestions = await UserQuestions.find({ userId: id, topicName: topic });
 
@@ -72,7 +79,7 @@ const getSelectedTopics = async (req, res) => {
 
         questions.forEach(({ _id, questionName, platform, level, questionUrl }) => {
             const findUserCompletedQues = userQuestions.find(item => item.questionId === _id);
-            let completed = findUserCompletedQues !== undefined; 
+            let completed = findUserCompletedQues !== undefined;
 
             const formattedData = {
                 completed,
@@ -111,7 +118,7 @@ const getSelectedTopics = async (req, res) => {
 // Add Questions (admin only)
 const addQuestion = async (req, res) => {
     try {
-        const {questionUrl} = req.body;
+        const { questionUrl } = req.body;
         const questionUrlExists = await Questions.findOne({ questionUrl: questionUrl });
         if (!questionUrlExists) {
             const newQuestion = new Questions(req.body);
