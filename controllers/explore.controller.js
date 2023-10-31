@@ -69,6 +69,10 @@ const getSelectedTopics = async (req, res) => {
         // request
         const { id, topic } = req.query;
 
+        if (!id || !topic)
+            return res.status(404).json({data: "All field are required", error: true});
+
+
         const questions = await Questions.find({ topicName: topic });
         const userQuestions = await UserQuestions.find({ userId: id, topicName: topic });
 
