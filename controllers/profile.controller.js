@@ -77,18 +77,15 @@ const tableData = async (req, res) => {
         const userQuestions = await UserQuestions.find({userId: id});
         questionData = [];
         questionData = questions.map((question) => {
-            level = question.level;
-            platform = question.platform;
-            qName = question.questionName;
-            qTopic = question.topicName;
-            url = question.questionUrl;
-            qId = question.id;
-            const fetchUserDetails = userQuestions.filter((userid) => userid.userId === id && userid.questionId === qId);
+            const {level, platform, questionName: qName, topicName: qTopic, questionUrl: url, id: qId} = question;
+            
+            const fetchUserDetails = userQuestions.filter((id) => id.questionId === qId);
+            console.log(fetchUserDetails.date, fetchUserDetails)
             if (fetchUserDetails.length > 0) {
                 date = fetchUserDetails.date;
                 done = "Yes";
             } else {
-                date = "None";
+                date = null;
                 done = "No";
             }
             return {"date": date, "done": done, "level": level, "platform": platform,
