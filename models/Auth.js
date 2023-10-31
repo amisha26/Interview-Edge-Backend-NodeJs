@@ -1,6 +1,8 @@
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 
+// Schema to store the user credentials
+
 const userAuthSchema = new mongoose.Schema (
     {
         _id: {

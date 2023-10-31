@@ -1,6 +1,8 @@
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 
+// Schema that stores questions solved by a user
+
 const userQuestionsSchema = new mongoose.Schema(
     {
         _id: {
@@ -21,7 +23,7 @@ const userQuestionsSchema = new mongoose.Schema(
         },
         date: {
             type: Date,
-            required: true,
+            default: () => Date(),
         }
     },
     {

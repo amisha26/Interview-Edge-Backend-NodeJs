@@ -1,6 +1,8 @@
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 
+// Schema to store all questions
+
 const questionsSchema = new mongoose.Schema (
     {
         questionUrl: {
