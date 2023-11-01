@@ -3,9 +3,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 
 // utils
-//const SwaggerOptions = require("./utils/swagger");
+const SwaggerOptions = require("./utils/swagger");
 const dbConnection = require("./utils/dbConnection");
 
 // routes
@@ -50,8 +52,8 @@ const users_csv_path = "./csv/users.csv";
 
 
 // ============ SWAGGER =========
-//const swaggerSpec = swaggerJsDoc(SwaggerOptions);
-//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerSpec = swaggerJsDoc(SwaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 

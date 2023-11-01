@@ -2,7 +2,7 @@ const Auth = require("../models/Auth");
 const bcrypt = require("bcrypt");
 
 
-function getInvalidResponses(message) {
+function getInvalidResponses(message, res) {
     return res.status(400).json({ message, error: true })
 }
 
@@ -48,12 +48,12 @@ const userLogin = async (req, res) => {
         // check user in db
         const existingUser = await Auth.findOne({ username: username });
         if (!existingUser) {
-            return getInvalidResponses("Invalid Credentials");
+            return getInvalidResponses("Invalid Credentials", res);
         }
 
         const isValidPassword = await bcrypt.compare(password, existingUser.password);
         if (!isValidPassword) {
-            return getInvalidResponses("Invalid Credentials");
+            return getInvalidResponses("Invalid Credentials", res);
         }
 
         return res.status(200).json({
@@ -62,6 +62,7 @@ const userLogin = async (req, res) => {
             error: false,
         });
     } catch (err) {
+        console.log(err);
         return res.status(500).json({ message: "Something went wrong", error: true });
     }
 };
