@@ -1,4 +1,5 @@
 const Auth = require("../models/Auth");
+const bcrypt = require("bcrypt");
 
 
 function getInvalidResponses(message) {
@@ -11,16 +12,22 @@ const userSignup =  async (req, res) => {
         // request body
         const { username, password } = req.body;
 
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
         // check user in db
-        const existingUser = await Auth.findOne({ username: username, password: password });
+        const existingUser = await Auth.findOne({ username: username });
 
         // if user does not exists send response
         if (!existingUser) {
-            const newUser = new Auth(req.body);
+            const newUser = new Auth({
+                username: username,
+                password: hashedPassword, // Store the hashed password in the database
+            });
             await newUser.save();
             return res.status(200).json({
                 message: "User signup successful",
-                data: { id: existingUser._id, name: username, token: 1234 },
+                data: { id: newUser._id, name: username, token: 1234 },
                 error: false,
               });
         }
@@ -39,16 +46,21 @@ const userLogin = async (req, res) => {
         const { username, password } = req.body;
 
         // check user in db
-        const existingUser = await Auth.findOne({ username: username, password: password });
+        const existingUser = await Auth.findOne({ username: username });
+        if (!existingUser) {
+            return getInvalidResponses("Invalid Credentials");
+        }
 
-        if (!existingUser)
-            return res.status(404).json({ message: "Invalid Credentials", error: true });
+        const isValidPassword = await bcrypt.compare(password, existingUser.password);
+        if (!isValidPassword) {
+            return getInvalidResponses("Invalid Credentials");
+        }
 
         return res.status(200).json({
             message: "Login successful",
             data: { id: existingUser._id, name: username, token: 1234 },
             error: false,
-          });
+        });
     } catch (err) {
         return res.status(500).json({ message: "Something went wrong", error: true });
     }
