@@ -1,5 +1,5 @@
 const Auth = require("../models/Auth");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 
 
 function getInvalidResponses(message, res) {
