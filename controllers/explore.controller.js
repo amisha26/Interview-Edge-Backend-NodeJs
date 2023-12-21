@@ -70,7 +70,7 @@ const getSelectedTopics = async (req, res) => {
         const { id, topic } = req.query;
 
         if (!id || !topic)
-            return res.status(404).json({data: "All field are required", error: true});
+            return res.status(404).json({ data: "All field are required", error: true });
 
 
         const questions = await Questions.find({ topicName: topic });
@@ -104,6 +104,11 @@ const getSelectedTopics = async (req, res) => {
             }
 
         });
+
+        sortByPropertyName(easyArr, "name");
+        sortByPropertyName(mediumArr, "name");
+        sortByPropertyName(hardArr, "name");
+        
         const selectedTopicData = [{ "body": easyArr, "cardTitle": "Easy", "cardType": "easy" },
         { "body": mediumArr, "cardTitle": "Medium", "cardType": "medium" },
         { "body": hardArr, "cardTitle": "Hard", "cardType": "hard" }];
@@ -116,6 +121,24 @@ const getSelectedTopics = async (req, res) => {
         return res.status(500).json({ data: "Something Went Wrong!", error: true });
     }
 };
+
+
+const sortByPropertyName = (arr, propertyName) => {
+    return arr.sort((a, b) => {
+        const propA = a[propertyName].toUpperCase();
+        const propB = b[propertyName].toUpperCase();
+
+        if (propA < propB) {
+            return -1;
+        }
+        if (propA > propB) {
+            return 1;
+        }
+
+        return 0; // Properties are equal
+    });
+};
+
 
 
 
